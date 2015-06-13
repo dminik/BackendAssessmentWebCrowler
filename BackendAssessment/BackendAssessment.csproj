@@ -66,8 +66,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cache\CacheRedis.cs" />
     <Compile Include="Cache\ICache.cs" />
+    <Compile Include="Repositories\IWebPagesRepository.cs" />
     <Compile Include="Services\ISearchService.cs" />
     <Compile Include="Services\SearchService.cs" />
+    <Compile Include="Utilities\TextScaner\ITextScaner.cs" />
+    <Compile Include="Utilities\Web\HtmlHelper.cs" />
+    <Compile Include="Utilities\Web\IPageDownloader.cs" />
+    <Compile Include="Utilities\Web\MyWebClient.cs" />
+    <Compile Include="Utilities\Web\IWebClient.cs" />
+    <Compile Include="Utilities\Web\LinkItem.cs" />
     <Compile Include="Utilities\Web\PageDownloader.cs" />
     <Compile Include="Repositories\WebPagesRepository.cs" />
     <Compile Include="Utilities\TextScaner\TextScaner.cs" />

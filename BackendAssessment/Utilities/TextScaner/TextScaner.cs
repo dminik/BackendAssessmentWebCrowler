@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BackendAssessment.Services
+﻿namespace BackendAssessment.Utilities.TextScaner
 {
-	using System.Runtime.InteropServices;
+	using System.Collections.Generic;
+	using System.Text;
 	using System.Text.RegularExpressions;
 
-	public class TextScaner
+	public class TextScaner : ITextScaner
 	{
-		public static IEnumerable<string> SearchPhrase(string phrase, string text, int maxCharDistanceBetweenPhraseWords = 25, int maxCharSurraund = 25)
+		public IEnumerable<string> SearchPhrase(string phrase, string text, 
+			int maxCharDistanceBetweenPhraseWords = 25, int maxCharSurraund = 25)
 		{
 
 			var resultList = new List<string>();

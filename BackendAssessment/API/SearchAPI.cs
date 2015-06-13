@@ -21,11 +21,12 @@ namespace BackendAssessment.API
 
 	public class SearchAPI : NancyModule
 	{
-		ISearchService SearchService { get; set; }
+		//ISearchService SearchService { get; set; }
 
+		//public SearchAPI(ISearchService searchService)
 		public SearchAPI(ISearchService searchService)
 		{
-			SearchService = searchService;		
+			//SearchService = searchService;		
 		
 			Get["/ping"] = parameters =>
 			{
@@ -51,10 +52,26 @@ namespace BackendAssessment.API
 				}
 				else
 				{
-					var results = searchService.Search(query);
-					var json = JsonConvert.SerializeObject(results);
-					response = (Response)json;
-					return response.WithStatusCode(HttpStatusCode.OK);
+					//try
+					//{					
+					//	var results = searchService.Search(query);
+					//	var json = JsonConvert.SerializeObject(results);
+					//	response = (Response)json;
+					//	return response.WithStatusCode(HttpStatusCode.OK);
+					//}
+					//catch (Exception ex)
+					//{
+					//	response = string.Format("{0}{1}", (Response)"Error: ", ex.Message);
+					//	response.ContentType = "text/plain";
+					//	return response.WithStatusCode(HttpStatusCode.BadRequest);
+					//}
+
+					//var results = searchService.Search(query);
+					//var json = JsonConvert.SerializeObject(results);
+					//response = (Response)json;
+					//return response.WithStatusCode(HttpStatusCode.OK);
+
+					return HttpStatusCode.OK;
 				}				
 			};
 

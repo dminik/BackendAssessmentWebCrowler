@@ -1,22 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BackendAssessment.Services
+﻿namespace BackendAssessment.Repositories
 {
-	using System.Collections;
-	using System.Diagnostics;
-	using System.IO;
-	using System.Net;
-	using System.Text.RegularExpressions;
+	using System;
+	using System.Collections.Generic;	
+	using BackendAssessment.Utilities.Web;
+	using log4net;
 
-	using BackendAssessment.API;
-	
-
-	public class gg3
+	public class WebPagesRepository : IWebPagesRepository
 	{
-		
+		public Dictionary<string, string> Pages { get; set; }
+		ILog Log { get; set; }
+		IPageDownloader PageDownloader { get; set; }
+
+		public WebPagesRepository(IPageDownloader pageDownloader, ILog log)
+		{					
+			Log = log;
+			PageDownloader = pageDownloader;
+		}
+
+		public void Init(Uri baseUri)
+		{
+			Pages = PageDownloader.GetPages(baseUri);
+		}
 	}
 }

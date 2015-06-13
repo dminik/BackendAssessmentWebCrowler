@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace BackendAssessment.UnitTests
 {
 	using BackendAssessment.Services;
+	using BackendAssessment.Utilities.TextScaner;
 
 	using NUnit.Framework;
 
@@ -21,7 +22,7 @@ namespace BackendAssessment.UnitTests
 			var text = "one minus3 minus2 minus1 zero one  two three four five six seven";
 
 			// Act
-			var resultMatchedStrings = TextScaner.SearchPhrase(phrase, text).ToList();
+			var resultMatchedStrings = new TextScaner().SearchPhrase(phrase, text).ToList();
 
 
 			// Assert
@@ -38,7 +39,7 @@ namespace BackendAssessment.UnitTests
 			var text = "one minus3 minus2 minus1 zero one  two three four five six seven";
 
 			// Act
-			var resultMatchedStrings = TextScaner.SearchPhrase(phrase, text).ToList();
+			var resultMatchedStrings = new TextScaner().SearchPhrase(phrase, text).ToList();
 			
 			// Assert
 			Assert.NotNull(resultMatchedStrings);
