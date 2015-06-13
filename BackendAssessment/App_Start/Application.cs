@@ -19,15 +19,15 @@ namespace BackendAssessment.App_Start
 	using StackExchange.Redis;
 
 	public class Application
-	{		
-		//ILog Log { get; set; }
-		//ISearchService SearchService { get; set; }
+	{
+		IMyLog Log { get; set; }
+		ISearchService SearchService { get; set; }
 
-		//public Application(ISearchService searchService, ILog log)
-		//{					
-		//	Log = log;
-		//	SearchService = searchService;
-		//}
+		public Application(ISearchService searchService, IMyLog log)
+		{
+			Log = log;
+			SearchService = searchService;
+		}
 
 		
 
@@ -42,7 +42,7 @@ namespace BackendAssessment.App_Start
 			
 
 			http.Start();
-			//Log.InfoFormat("HTTP endpoint listening on {0}", settings.HttpEndpointUrl);
+			Log.Print(string.Format("HTTP endpoint listening on {0}", settings.HttpEndpointUrl));
 
 			///* redis test */
 			var database = redis.GetDatabase();
@@ -50,7 +50,7 @@ namespace BackendAssessment.App_Start
 			var stored = database.StringGet("foo") == "bar";
 
 			Console.WriteLine("Program is initing...");
-			//SearchService.Init(settings.BaseUrl);
+			SearchService.Init(settings.BaseUrl);
 
 
 			Console.WriteLine("Program is running, press any key to exit");

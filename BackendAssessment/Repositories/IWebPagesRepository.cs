@@ -3,9 +3,13 @@
 	using System;
 	using System.Collections.Generic;
 
+	using BackendAssessment.Cache;
+
 	public interface IWebPagesRepository
 	{
-		Dictionary<string, string> Pages { get; set; }
+		ICacheService Storage { get; set; }
+
+		bool IsInit { get; set; }
 
 		void Init(Uri baseUri);
 	}

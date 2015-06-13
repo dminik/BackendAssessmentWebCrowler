@@ -1,19 +1,10 @@
-﻿using Nancy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BackendAssessment.API
+﻿namespace BackendAssessment.API
 {
-	using System.Collections;
-	using System.Diagnostics;
-	using System.IO;
-	using System.Net;
-	using System.Text.RegularExpressions;
+	using System;
 
 	using BackendAssessment.Services;
+
+	using Nancy;
 
 	using Newtonsoft.Json;
 
@@ -21,12 +12,11 @@ namespace BackendAssessment.API
 
 	public class SearchAPI : NancyModule
 	{
-		//ISearchService SearchService { get; set; }
-
-		//public SearchAPI(ISearchService searchService)
+		ISearchService SearchService { get; set; }
+		
 		public SearchAPI(ISearchService searchService)
 		{
-			//SearchService = searchService;		
+			SearchService = searchService;		
 		
 			Get["/ping"] = parameters =>
 			{
@@ -52,40 +42,21 @@ namespace BackendAssessment.API
 				}
 				else
 				{
-					//try
-					//{					
-					//	var results = searchService.Search(query);
-					//	var json = JsonConvert.SerializeObject(results);
-					//	response = (Response)json;
-					//	return response.WithStatusCode(HttpStatusCode.OK);
-					//}
-					//catch (Exception ex)
-					//{
-					//	response = string.Format("{0}{1}", (Response)"Error: ", ex.Message);
-					//	response.ContentType = "text/plain";
-					//	return response.WithStatusCode(HttpStatusCode.BadRequest);
-					//}
-
-					//var results = searchService.Search(query);
-					//var json = JsonConvert.SerializeObject(results);
-					//response = (Response)json;
-					//return response.WithStatusCode(HttpStatusCode.OK);
-
-					return HttpStatusCode.OK;
+					try
+					{
+						var results = searchService.Search(query);
+						var json = JsonConvert.SerializeObject(results);
+						response = (Response)json;
+						return response.WithStatusCode(HttpStatusCode.OK);
+					}
+					catch (Exception ex)
+					{
+						response = string.Format("{0}{1}", (Response)"Error: ", ex.Message);
+						response.ContentType = "text/plain";
+						return response.WithStatusCode(HttpStatusCode.BadRequest);
+					}					
 				}				
 			};
-
-
-
 		}
-
-		
-
-
 	}
-
-
-
-
-	
 }

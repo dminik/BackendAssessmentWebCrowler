@@ -39,7 +39,9 @@
 
 			foreach (Match currentMatch in matchList)
 			{
-				resultList.Add(currentMatch.ToString());				
+				var val = currentMatch.ToString();
+				if (!resultList.Contains(val))
+					resultList.Add(val);				
 			}
 			
 			return resultList;

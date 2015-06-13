@@ -5,6 +5,6 @@ namespace BackendAssessment.Utilities.Web
 
 	public interface IPageDownloader
 	{
-		Dictionary<string, string> GetPages(Uri url);
+		void GetPagesToStorage(Uri url);
 	}
 }

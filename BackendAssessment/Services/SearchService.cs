@@ -13,12 +13,11 @@ namespace BackendAssessment.Services
 	public class SearchService : ISearchService
 	{
 		IWebPagesRepository WebPagesRepository { get; set; }
-		ITextScaner TextScaner { get; set; }
-		public bool IsInited { get; set; }
+		ITextScaner TextScaner { get; set; }		
 		public Uri BaseUri { get; set; }
-		ILog Log { get; set; }
+		IMyLog Log { get; set; }
 
-		public SearchService(IWebPagesRepository webPagesRepository, ITextScaner textScaner, ILog log)
+		public SearchService(IWebPagesRepository webPagesRepository, ITextScaner textScaner, IMyLog log)
 		{
 			WebPagesRepository = webPagesRepository;
 			TextScaner = textScaner;
@@ -27,27 +26,36 @@ namespace BackendAssessment.Services
 
 		public virtual void Init(Uri baseUri)
 		{
-			Log.InfoFormat("Start Init for {0}...", baseUri.AbsoluteUri);
+			Log.Print("Start Init for " + baseUri.AbsoluteUri);
 
 			WebPagesRepository.Init(baseUri);
-			IsInited = true;
 
-			Log.InfoFormat("Finish Init for {0}.", baseUri.AbsoluteUri);
+			Log.Print("Finish Init for " + baseUri.AbsoluteUri);
 		}
 		
-		public virtual List<string> Search(string text)
+		public virtual List<string> Search(string phrase)
 		{
-			if(!IsInited)
+			if (!WebPagesRepository.IsInit)
 				throw new Exception("SearchService is not initialized.");
+			
+			var resultStrings = WebPagesRepository.Storage.GetCached<List<string>>(phrase, SearchInPageSources);
+			return resultStrings;
+		}
 
+		private List<string> SearchInPageSources(string text)
+		{
 			var resultStrings = new List<string>();
-
-			foreach (var currentPage in WebPagesRepository.Pages)
+			foreach (var currentPageKey in WebPagesRepository.Storage.GetKeys())
 			{
-				var resultStringsForPage = TextScaner.SearchPhrase(text, currentPage.Value).ToList();
-				resultStrings.AddRange(resultStringsForPage);
-			}
+				var pageText = WebPagesRepository.Storage.Get<string>(currentPageKey);
 
+				var resultStringsForPage = TextScaner.SearchPhrase(text, pageText).ToList();
+
+				foreach (var curVal in resultStringsForPage.Where(curVal => !resultStrings.Contains(curVal)))
+				{
+					resultStrings.Add(curVal);
+				}
+			}
 			return resultStrings;
 		}
 	}
