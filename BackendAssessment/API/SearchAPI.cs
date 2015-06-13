@@ -13,12 +13,20 @@ namespace BackendAssessment.API
 	using System.Net;
 	using System.Text.RegularExpressions;
 
+	using BackendAssessment.Services;
+
+	using Newtonsoft.Json;
+
 	using HttpStatusCode = Nancy.HttpStatusCode;
 
 	public class SearchAPI : NancyModule
 	{
-		public SearchAPI()
+		ISearchService SearchService { get; set; }
+
+		public SearchAPI(ISearchService searchService)
 		{
+			SearchService = searchService;		
+		
 			Get["/ping"] = parameters =>
 			{
 				var result = new
@@ -33,17 +41,21 @@ namespace BackendAssessment.API
 			Get["/search"] = parameters =>
 			{				
 				var query = Request.Query["query"].Value;
+				Response response = null;
 
 				if (string.IsNullOrEmpty(query))
 				{
-					var response = (Response)"Invalid (or missing) query value";
+					response = (Response)"Invalid (or missing) query value";
 					response.ContentType = "text/plain";
 					return response.WithStatusCode(HttpStatusCode.BadRequest);
 				}
-
-				//TODO: implement logic (return a list of relevant results)
-
-				return HttpStatusCode.OK;
+				else
+				{
+					var results = searchService.Search(query);
+					var json = JsonConvert.SerializeObject(results);
+					response = (Response)json;
+					return response.WithStatusCode(HttpStatusCode.OK);
+				}				
 			};
 
 
